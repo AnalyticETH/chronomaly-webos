@@ -9,7 +9,7 @@ See [VULNERABILITY_REPORT.md](VULNERABILITY_REPORT.md) for the full vulnerabilit
 ## Results
 
 - Persistent kernel root (uid=0) from unprivileged `prisoner` user (uid=5038)
-- Verified on 4 LG TV models: OLED65C2PUA, 86QNED70AUA, OLED77C5PUA, OLED77G4WUA
+- Verified on 5 LG TV models: OLED65C2PUA, 86QNED70AUA, OLED77C5PUA, OLED77G4WUA, OLED65C4PUA
 - Confirmed across firmware versions 33.22.65 – 33.30.97 (kernel 5.4.268-320 and -329)
 - Fully automated, completes within minutes, survives reboots via Homebrew Channel elevation
 - Reported to LG Security Researcher Program (February 7, 2026)
@@ -140,6 +140,7 @@ If DELAY is provided but DELTA is not, DELTA is auto-computed as `DELAY / 600` (
 | 86QNED70AUA | HE_DTV_W25P_AFADATAA | 100000 | 165 | 3000 |
 | OLED77C5PUA | HE_DTV_W25G_AFABATAA | 30500 | 50 | 3000 |
 | OLED77G4WUA | HE_DTV_W24O_AFABATAA | 24500 | 50 | 2500 |
+| OLED65C4PUA | FW: 33.21.85 | 30000 | 50 | 3000 |
 
 ### Finding Values for a New TV
 
