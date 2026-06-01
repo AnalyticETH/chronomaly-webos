@@ -143,6 +143,7 @@ If DELAY is provided but DELTA is not, DELTA is auto-computed as `DELAY / 600` (
 | OLED65C4PUA | HE_DTV_W24G_AFABATAA | 30000 | 50 | 3000 |
 | OLED55C4PUA | HE_DTV_W24G_AFABATAA | 30300 | 50 | 3000 |
 | OLED48C3AUB | - | 31300 | 50 | 3000 |
+| OLED65C3PUA | - | 27900 | 50 | 3000 |
 
 ### Finding Values for a New TV
 
