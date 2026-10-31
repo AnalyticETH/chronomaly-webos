@@ -144,6 +144,7 @@ If DELAY is provided but DELTA is not, DELTA is auto-computed as `DELAY / 600` (
 | OLED55C4PUA | HE_DTV_W24G_AFABATAA | 30300 | 50 | 3000 |
 | OLED48C3AUB | - | 31300 | 50 | 3000 |
 | OLED65C3PUA | HE_DTV_W23O_AFABJAAA | 27900 | 50 | 3000 |
+| 55UT80006LA | HE_DTV_W24P_AFADATAA | 100000 | 165 | 3000 |
 
 ### Finding Values for a New TV
 
@@ -155,6 +156,15 @@ Parent raced too early  → INCREASE DELAY
 ```
 
 When both messages appear, the timing is close — keep running and the exploit should eventually hit the race window. Start with the compiled default (31000) and adjust from there.
+
+### Notes for Realtek-based TVs (55UT80006LA)
+
+- **Tested on:** LG 55UT80006LA (UT80 series, Realtek SoC, 2024 model year), webOS 25 / webOS TV 10.3.2-33, firmware 33.31.75, kernel 5.4.268-294.24, aarch64. Root was obtained with the unmodified source; only the command-line timing arguments were changed.
+- **Parameters that worked:** `DELAY≈100000 DELTA=165 THRESHOLD=3000`, the same values as the 86QNED70AUA row. The compiled defaults (31000/50) are tuned for OLED models; this Realtek-based TV needed a much larger DELAY. It is likely, but not proven, that Realtek-based LG TVs share this window.
+- **The window drifts:** the effective DELAY moved between runs, roughly 80000–100000+. In eight unattended 240-second rounds with `DELTA=50` and DELAY between 85000 and 112000 no root was obtained; with DELAY≈100000 and DELTA scaled to it (165, which is what the auto-compute `DELAY/600` gives if you omit DELTA) it landed. This is a small sample, so treat it as a hint: pass DELTA explicitly or omit it, and do not leave it at 50 when DELAY is large. "Parent raced too late" was the message seen most often.
+- **Expect hard hangs:** the kernel race often freezes the whole TV; power-cycle it. A reboot wipes `/tmp`, so the exploit binary must be re-uploaded. After a crash the Dev Mode SSH port (9922) can stay down until the Dev Mode app is reopened and its session is re-enabled.
+- **Unattended retry loop:** a shell loop that waits for port 9922, re-uploads `/tmp/exploit-arm64` if it is missing, runs it under `timeout` (about 240 s per round) while cycling DELAY across the window, and stops when `/media/developer/apps/usr/palm/services/org.webosbrew.hbchannel.service/elevate-service` exists. Each round is a fresh attempt because a failed one usually crashes or reboots the TV.
+- **Root login:** on this firmware the root password field in `/etc/shadow` is `*` (locked), so the `alpine` password mentioned in "After Root" did not apply and password login was not possible. Use key-based login instead: while Homebrew Channel's telnet is on, append your public key to `/home/root/.ssh/authorized_keys` once, then log in with the key and switch telnet off.
 
 ## After Root
 
